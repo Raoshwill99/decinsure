@@ -4,12 +4,14 @@
 
 This project implements a decentralized insurance protocol on the Stacks blockchain using Clarity. The protocol aims to automatically compensate users if a smart contract experiences a failure or security breach. The insurance is funded through a decentralized pool of contributors, adding a new layer of trust and security for users in the blockchain ecosystem.
 
-## Features (Current and Planned)
+## Features
 
 - [x] Decentralized insurance pool
 - [x] User contributions to the pool
-- [x] Registration of insured contracts
-- [ ] Automated claim processing
+- [x] Registration of insured contracts with coverage amounts
+- [x] Claim filing system
+- [x] Claim approval and rejection mechanism
+- [x] Automatic payout for approved claims
 - [ ] Decentralized governance for decision-making
 - [ ] Risk-based premium calculation
 - [ ] Abuse prevention mechanisms
@@ -22,14 +24,20 @@ The main contract (`insurance-mechanism.clar`) contains the following key compon
 2. **Data Variables**: Tracks the total insurance pool balance.
 3. **Maps**: 
    - `contributors`: Records individual contributions.
-   - `insured-contracts`: Tracks which contracts are insured.
+   - `insured-contracts`: Tracks which contracts are insured and their coverage amounts.
+   - `claims`: Stores information about filed claims.
 4. **Public Functions**:
    - `contribute`: Allows users to add funds to the insurance pool.
-   - `register-contract`: Enables the contract owner to register insured contracts.
+   - `register-contract`: Enables the contract owner to register insured contracts with coverage amounts.
+   - `file-claim`: Allows users to file claims against insured contracts.
+   - `approve-claim`: Allows the contract owner to approve and process claims.
+   - `reject-claim`: Allows the contract owner to reject claims.
 5. **Read-only Functions**:
    - `get-pool-balance`: Returns the current insurance pool balance.
    - `is-contract-insured`: Checks if a given contract is insured.
    - `get-contribution`: Retrieves the contribution amount for a given user.
+   - `get-claim-status`: Retrieves the status of a specific claim.
+   - `get-contract-coverage`: Returns the coverage amount for a given contract.
 
 ## Setup and Deployment
 
@@ -53,22 +61,27 @@ After deployment, users can interact with the contract through the provided publ
   stacks call contribute
   ```
 
-- To check if a contract is insured (replace `<contract-address>` with the actual address):
+- To file a claim (replace `<contract-address>` and `<amount>` with actual values):
   ```
-  stacks call is-contract-insured <contract-address>
+  stacks call file-claim <contract-address> <amount>
   ```
 
-Note: Only the contract owner can register insured contracts.
+- To check the status of a claim (replace `<contract-address>` with the actual address):
+  ```
+  stacks call get-claim-status <contract-address> tx-sender
+  ```
+
+Note: Only the contract owner can register insured contracts, and approve or reject claims.
 
 ## Future Development
 
 This project is under active development. Upcoming features include:
 
-1. Implementing a claim mechanism for insured contracts.
-2. Developing a payout system for valid claims.
-3. Creating a governance system for decentralized decision-making.
-4. Implementing mechanisms to prevent abuse and ensure fairness.
-5. Developing a system to calculate and adjust insurance premiums based on risk.
+1. Implementing a decentralized governance system for decision-making.
+2. Developing a risk-based premium calculation system.
+3. Implementing mechanisms to prevent abuse and ensure fairness.
+4. Adding more sophisticated claim validation mechanisms.
+5. Integrating with external oracles for automated claim verification.
 
 ## Contributing
 
